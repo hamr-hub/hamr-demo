@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      PORT: ${PORT:-3004}
+      RUST_LOG: ${RUST_LOG:-info}
+    ports:
+      - "3004:3004"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${API_URL:-http://localhost:3004}
+    ports:
+      - "3030:80"
+    depends_on:
+      - backend
